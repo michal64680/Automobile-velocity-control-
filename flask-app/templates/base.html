@@ -7,15 +7,24 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="http://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css" rel="stylesheet">
     <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"  href="../static/main.css">
     <title>Mariusz i Norek  - Dashboard</title>
 </head>
 <body>
 
     {% block content %}
     {% endblock %}
-
+<script>
+    var hamburger = document.querySelector(".hamburger");
+    hamburger.addEventListener("click", function(){
+        document.querySelector("body").classList.toggle("active");
+    })
+    document.querySelector(".side-panel-toggle").addEventListener("click", () => {
+    document.querySelector(".wrapper").classList.toggle("side-panel-open");
+});
+</script>
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js"></script>
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

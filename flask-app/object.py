@@ -7,6 +7,9 @@ from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
 from bokeh.layouts import row, column, gridplot
 from bokeh.models.widgets import Tabs, Panel
+
+import app
+
 Tp=0.1
 
 A = 1.5 #opory
@@ -15,7 +18,7 @@ A = 1.5 #opory
 #h=[0]
 v=[0]
 #h_zad = 8
-v_zad = 50
+
 F = 1000
 m=500
 t_sim=1000
@@ -64,7 +67,7 @@ def limit(u_n):
 
 def velocity(v_n,u_n):
     #try:
-    e.append(v_zad-v_n)
+    e.append(app.v_zad-v_n)
     #print(v_n)
     return ((Tp/m)*(F*limit(u_n)-0.5*A*v_n*v_n-m*10*math.sin(0.0))+v_n)
     #return ((Tp/A)*(drainage_intensity(u_n)-B*math.sqrt(h_n))+h_n)
@@ -76,7 +79,7 @@ for i in range(0,N-1):
     v.append(velocity(v[i],controllerPID(Kp,Tp,Td,Ti,i)))
     #print(e[i])
 
-
+print(app.v_zad)
 #plt.clf()
 #plt.plot(tt,v)
 #plt.xlabel("Czas [min]")

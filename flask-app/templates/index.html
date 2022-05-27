@@ -1,22 +1,62 @@
 {% extends 'base.html' %}
 {% block content %}
     {% include 'navbar.html' %}
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-6">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis provident ducimus incidunt dicta aliquam nesciunt quod laudantium tempore iusto ab veritatis, aperiam iste aspernatur quisquam consequuntur, accusamus ipsam magni perferendis ullam recusandae inventore? Cupiditate fugit recusandae reiciendis libero placeat esse saepe suscipit, sit eveniet ratione natus totam similique distinctio quas repudiandae ipsa excepturi sunt est nam molestias quibusdam dicta ab. Maiores provident reiciendis non porro ipsam vitae amet quas temporibus, molestiae odit laborum debitis voluptas quisquam esse ullam incidunt repellat ipsa quae sunt explicabo a? Perferendis, reprehenderit ab aspernatur id voluptatem explicabo cum reiciendis. Facere ipsam expedita, autem neque temporibus sequi impedit a ut nihil architecto! Numquam, excepturi autem omnis explicabo sint natus quibusdam, voluptatum molestias non dolor, porro ab.</p>
+    
+
+    <div class="wrapper">
+        <div class="sidebar">
+            
+            <h4>Parametry:</h4> 
+            <form method="post">
+            <button class="submit-btn-2" name="drop-value" type="submit" method="GET" action="">Wprowadź</button>  
+        
+            <ul>
+                <li>
+                
+                {{ div_velocity_slider | safe }}
+                </li>
+                <li>
+                
+                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange" name="slider_proba">
+                </li>
+            </ul>
+        </form>
+
+            
+        
+        </div>
+        <div class="section">
+            <div class="top_navbar">
+                <div class="hamburger">
+                    <a href="#">
+                        <button class="side-panel-toggle" type="button">
+                            <span class="material-icons sp-icon-open">keyboard_double_arrow_left</span>
+                            <span class="material-icons sp-icon-close">keyboard_double_arrow_right</span>
+                          </button> 
+                    </a>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="container">
+      
+        <div class="row mt-5">
+            <div class="col-3"></div>
+            
             <div class="col-6">
                 {{ div_velocity_plot | safe }}
             </div>
         </div>
         <div class="row mt-5">
-            {{ slider | safe }}
+            
         </div>
         <div class="row mt-5">
             
         </div>
     </div>
+    
+   
 {{ script_velocity_plot | safe }}
+{{ script_velocity_slider | safe }}
     
 {% endblock %}
