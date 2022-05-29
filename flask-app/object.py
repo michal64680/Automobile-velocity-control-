@@ -8,101 +8,81 @@ from bokeh.models import ColumnDataSource
 from bokeh.layouts import row, column, gridplot
 from bokeh.models.widgets import Tabs, Panel
 
-import app
+class object:
+    def __init__(self) -> None:
+        pass
 
-Tp=0.1
+    def change_parameters(self, Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha):
+        self.Tp = Tp
+        self.t_sim = t_sim
+        self.N = int(self.t_sim/self.Tp)
+        self.x_axis=np.arange(0.0,self.t_sim,self.Tp)
+        self.drag = drag
+        self.v = [0]
+        self.v_zad = v_zad
+        self.Fp = Fp
+        self.m = m
+        self.load = load
+        self.Kp = Kp
+        self.Ti = Ti
+        self.Td = Td
+        self.alpha = (alpha*2*3.141529/360.0)
+        self.e=[0]
+        self.e_sum=[]
+        self.u=[0]
 
-A = 1.5 #opory
-#B=0.035
-#Qd=0.05
-#h=[0]
-v=[0]
-#h_zad = 8
+        self.__start()
 
-F = 1000
-m=500
-t_sim=1000
-N=int(t_sim/Tp)
-tt=np.arange(0.0,t_sim,Tp)
-Kp = 0.02
-Ti = 0.1
-Td = 1.5
-e=[0]
-e_sum=[]
+    def __controllerP(self,n):
+        return (self.Kp*self.e[n])
 
-def controllerP(Kp,n):
-    return (Kp*e[n])
+    def __controllerI(self,n):
+        u_i = 0
+        if(n==0):
+            self.e_sum.append(self.e[n])
+        else:
+            self.e_sum.append(self.e[n]+self.e_sum[n-1])
+        u_i=self.e_sum[n]
+        return ((self.Kp*self.Tp/self.Ti)*u_i)
 
-def controllerI(Kp,Tp,Ti,n):
-    u_i = 0
-    if(n==0):
-        e_sum.append(e[n])
-    else:
-        e_sum.append(e[n]+e_sum[n-1])
-    u_i=e_sum[n]
-    #print(u_i)
-    return ((Kp*Tp/Ti)*u_i)
+    def __controllerD(self,n):
+        if(n==0):
+            return ((self.Kp * self.Td / self.Tp) * (self.e[n]))
+        else:
+            return ((self.Kp*self.Td/self.Tp)*(self.e[n]-self.e[n-1]))
 
-def controllerD(Kp,Tp,Td,n):
-    if(n==0):
-        return ((Kp * Td / Tp) * (e[n]))
-    else:
-        return ((Kp*Td/Tp)*(e[n]-e[n-1]))
+    def __controllerPID(self,n):
+        u_n = self.__controllerP(n)
+        u_n += self.__controllerI(n)
+        u_n += self.__controllerD(n)
+        return u_n
 
-def controllerPID(Kp,Tp,Td,Ti,n):
-    u_n = controllerP(Kp,n)
-    u_n += controllerI(Kp,Tp,Ti,n)
-    u_n += controllerD(Kp,Tp,Td,n)
-    return u_n
+    def __limit(self,u_n):
+        if u_n>100:
+            #print("More than 100%")
+            u_n = 100
+        elif u_n<-50:
+            #print("Smaller than -50%")
+            u_n = -50
+        self.u.append(u_n)
+        return u_n
 
-def limit(u_n):
-    #print(u_n)
-    if u_n>100:
-        #print("More than 100%")
-        u_n = 100
-    elif u_n<-50:
-        #print("Smaller than 0%")
-        u_n = -50
-    return u_n
+    def __velocity(self,v_n,u_n):
+        self.e.append(self.v_zad-v_n)
+        return ((self.Tp/(self.m+self.load))*(self.Fp*self.__limit(u_n)-0.5*self.drag*v_n*v_n-(self.m+self.load)*10*math.sin(self.alpha))+v_n)
+    
+    def __start(self):
+        for i in range(0,self.N-1):
+            self.v.append(self.__velocity(self.v[i],self.__controllerPID(i)))
+    
+    def get_v(self):
+        return self.v
 
-def velocity(v_n,u_n):
-    #try:
-    e.append(app.v_zad-v_n)
-    #print(v_n)
-    return ((Tp/m)*(F*limit(u_n)-0.5*A*v_n*v_n-m*10*math.sin(0.0))+v_n)
-    #return ((Tp/A)*(drainage_intensity(u_n)-B*math.sqrt(h_n))+h_n)
-    #except:
-        #return drainage_intensity(u_n)
+    def get_u(self):
+        return self.u
 
+    def get_e(self):
+        return self.e
 
-for i in range(0,N-1):
-    v.append(velocity(v[i],controllerPID(Kp,Tp,Td,Ti,i)))
-    #print(e[i])
-
-print(app.v_zad)
-#plt.clf()
-#plt.plot(tt,v)
-#plt.xlabel("Czas [min]")
-#plt.ylabel("Prędkosc")
-#plt.grid()
-#plt.show()
-
-#output_file('filename.html')  # Render to static HTML, or
- # Render inline in a Jupyter Notebook
-
-# Set up the figure(s)
- # Instantiate a figure() object
-#fig = figure(title='My Coordinates',
-#             plot_height=300, plot_width=300,
-#             toolbar_location=None)
-
-# Draw the coordinates as circles
-#fig.line(x=tt, y=v,
- #          color='green')
-# Connect to and draw the data
-
-# Organize the layout
-
-# Preview and save
-#show(fig)
-
+    def get_x_axis(self):
+        return self.x_axis
