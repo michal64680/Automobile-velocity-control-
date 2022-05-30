@@ -36,6 +36,13 @@
    
 
 }
+.wrapper h6 {
+    color: black;
+    padding-top: 10px;
+    
+   
+
+}
 .wrapper li {
     padding-top: 0%;
     color: black
@@ -98,4 +105,10 @@ body.active .wrapper .section{
   }
 .sliders {
     padding-top: 0%;
+}
+p{
+    -webkit-text-stroke: 1.5px black; /* width and color */
+    padding: 0.5px;
+    padding-top: 8px;
+    font-family: sans;
 }

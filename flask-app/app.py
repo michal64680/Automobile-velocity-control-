@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May 10 15:44:33 2022
-
-@author: filip
-"""
 import math
 import numpy as np
 import pandas as pd
@@ -17,35 +11,44 @@ from bokeh.layouts import column, row
 from flask import Flask, render_template, request
 
 #from object import v, tt
-import object
-import os
+from object import object
 
-v_zad=0
+
+model=object()
+
+Tp=0.1
+t_sim=1000
+drag=1.5
+v_zad=50
+Fp=1000
+m=500
+load=100
+Kp=0.1
+Ti=0.1
+Td=0.01
+alpha=0.5
 
 
 app = Flask(__name__)
 
 @app.route('/')
 def chart():
-        #script_velocity_plot, div_velocity_plot = components({"p": velocity_plot(object.v,object.tt), "slider1":row(slider1), "slider2":row(slider2)})
-        script_velocity_slider, div_velocity_slider = components(slider_range())
-        script_velocity_plot, div_velocity_plot = components(velocity_plot(object.v,object.tt))
-        #slider = range_slider(velocity_plot(object.v,object.tt))
-        return render_template('index.html',div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot,
-        div_velocity_slider=div_velocity_slider,script_velocity_slider=script_velocity_slider)
+        model.change_parameters(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
+
+        #script_velocity_slider, div_velocity_slider = components(slider_range())
+        script_velocity_plot, div_velocity_plot = components(velocity_plot(model.get_v(),model.get_x_axis()))
+        return render_template('index.html',div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot)
 
 @app.route('/',methods=['GET', 'POST'])
 def chart_post():
     v_zad=request.form['slider_proba']
+    v_zad=int(v_zad)
+    model.change_parameters(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha) 
+
+    #script_velocity_slider, div_velocity_slider = components(slider_range())
+    script_velocity_plot, div_velocity_plot = components(velocity_plot(model.get_v(),model.get_x_axis()))
     #print(v_zad)
-    #os.system('object')
-        
-    #script_velocity_plot, div_velocity_plot = components({"p": velocity_plot(object.v,object.tt), "slider1":row(slider1), "slider2":row(slider2)})
-    script_velocity_slider, div_velocity_slider = components(slider_range())
-    script_velocity_plot, div_velocity_plot = components(velocity_plot(object.v,object.tt))
-    #slider = range_slider(velocity_plot(object.v,object.tt))
-    return render_template('index.html',div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot,
-    div_velocity_slider=div_velocity_slider,script_velocity_slider=script_velocity_slider)
+    return render_template('index.html',div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot)
 
 def plot_line_styler(p):
     p.title.text = "Wykres prędkości od czasu"
