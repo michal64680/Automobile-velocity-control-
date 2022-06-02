@@ -11,8 +11,61 @@
             <button class="submit-btn-2" name="drop-value" type="submit" method="GET" action="">Wprowadź</button>  
             <ul>
                 <li>
+                    
+                    <h6>Czas próbkowania: </h6>
+                    <input type="range" min="0.01" max="1" step="0.01" value="{{Tp | safe}}" class="slider" id="myRange" name="slider_Tp" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{Tp | safe}}</output>
+                </li>
+                <li>
+                    <h6>Czas symulacji: </h6>
+                    <input type="range" min="1" max="1000" value="{{t_sim | safe}}" class="slider" id="myRange" name="slider_t_sim" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{t_sim | safe}}</output>
+                </li>
+                <li>
+                    <h6>Drgania: </h6>
+                    <input type="range" min="0" max="5" step="0.5" value="{{drag | safe}}" class="slider" id="myRange" name="slider_drag" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{drag | safe}}</output>
+                </li>
+                <li>
                     <h6>Prędkość Zadana: </h6>
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange" name="slider_proba">
+                    <input type="range" min="1" max="300" value="{{v_zad | safe}}" class="slider" id="myRange" name="slider_v_zad" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{v_zad | safe}}</output>
+                </li>
+                <li>
+                    <h6>Częstotliwość: </h6>
+                    <input type="range" min="100" max="2000" value="{{Fp | safe}}" class="slider" id="myRange" name="slider_Fp" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{Fp | safe}}</output>
+                </li>
+                <li>
+                    <h6>Masa: </h6>
+                    <input type="range" min="1" max="2000" value="{{m | safe}}" class="slider" id="myRange" name="slider_m" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{m | safe}}</output>
+                </li>
+                <li>
+                    <h6>Dodatowy załadunek: </h6>
+                    <input type="range" min="0" max="500" value="{{load | safe}}" class="slider" id="myRange" name="slider_load" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{load | safe}}</output>
+                </li>
+                <li>
+                    <h6>Wzmocnienie: </h6>
+                    <input type="range" min="0.01" max="2" step="0.02" value="{{Kp | safe}}" class="slider" id="myRange" name="slider_Kp" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{Kp | safe}}</output>
+                </li>
+                <li>
+                    <h6>Czas zdwojenia: </h6>
+                    <input type="range" min="0.01" max="1" step="0.01" value="{{Ti | safe}}" class="slider" id="myRange" name="slider_Ti" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{Ti | safe}}</output>
+                </li>
+                <li>
+                    <h6>Czas wyprzedzenia: </h6>
+                    <input type="range" min="0.001" max="0.1" step="0.001" value="{{Td | safe}}" class="slider" id="myRange" name="slider_Td" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{Td | safe}}</output>
+                </li>
+                <li>
+                    <h6>Kąt nachylenia: </h6>
+                    <input type="range" min="0" max="1" step="0.1" value="{{alpha | safe}}" class="slider" id="myRange" name="slider_alpha" oninput="this.nextElementSibling.value = this.value">
+                    <output class="output_range">{{alpha | safe}}</output>
+                   
                 </li>
             </ul>
         </form>
@@ -33,22 +86,29 @@
     <div class="container">
       
         <div class="row mt-5">
-            <div class="col-3"></div>
-            
-            <div class="col-6">
+            <div class="col-2"></div>
+            <div class="col-4">
                 {{ div_velocity_plot | safe }}
             </div>
+            <div class="col-2"></div>
+            <div class="col-4">
+                {{ div_e_plot | safe }}
+            </div>
+        
+        <div class="row mt-5">
+           
         </div>
         <div class="row mt-5">
-            
-        </div>
-        <div class="row mt-5">
-            
+            <div class="col-5"></div>
+            <div class="col-5">
+                {{ div_u_plot | safe }}
+            </div>
         </div>
     </div>
     
    
 {{ script_velocity_plot | safe }}
-{{ script_velocity_slider | safe }}
+{{ script_u_plot | safe }}
+{{ script_e_plot | safe }}
     
 {% endblock %}

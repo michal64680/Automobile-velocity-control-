@@ -21,9 +21,22 @@
     hamburger.addEventListener("click", function(){
         document.querySelector("body").classList.toggle("active");
     })
+
     document.querySelector(".side-panel-toggle").addEventListener("click", () => {
     document.querySelector(".wrapper").classList.toggle("side-panel-open");
 });
+    function updateTextInput(val) {
+          document.getElementById('textInput').value=val; 
+        }
+
+    document.registrationForm.ageInputId.oninput = function(){
+    document.registrationForm.ageOutputId.value = document.registrationForm.ageInputId.value;
+ }
+
+
+
+
+
 </script>
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js"></script>
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js"></script>

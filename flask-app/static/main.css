@@ -39,9 +39,16 @@
 .wrapper h6 {
     color: black;
     padding-top: 10px;
-    
-   
 
+}
+.output_range{
+    color: black;
+    font-weight:bold;
+    padding-left: 10px;
+    border:2px solid #fff;
+    text-align: center;
+    transition: 0.2s;
+    justify-content: center;
 }
 .wrapper li {
     padding-top: 0%;
@@ -49,11 +56,11 @@
 }
 .wrapper .sidebar{
     background: #033a63;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 350px;
-    height: 100%;
+    height: 170%;
     padding: 20px 0;
     transition: all 0.5s ease;
 }
@@ -112,3 +119,5 @@ p{
     padding-top: 8px;
     font-family: sans;
 }
+
+ 

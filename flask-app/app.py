@@ -34,24 +34,74 @@ app = Flask(__name__)
 @app.route('/')
 def chart():
         model.change_parameters(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
-
         #script_velocity_slider, div_velocity_slider = components(slider_range())
         script_velocity_plot, div_velocity_plot = components(velocity_plot(model.get_v(),model.get_x_axis()))
-        return render_template('index.html',div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot)
+        script_u_plot, div_u_plot = components(u_plot(model.get_u(),model.get_x_axis()))
+        script_e_plot, div_e_plot = components(e_plot(model.get_e(),model.get_x_axis()))
+        return render_template('index.html',
+        div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot,
+        div_u_plot=div_u_plot,script_u_plot=script_u_plot,
+        div_e_plot=div_e_plot,script_e_plot=script_e_plot,
+        v_zad=v_zad,
+        Tp=Tp,
+        t_sim=t_sim,
+        drag=drag,
+        Fp=Fp,
+        m=m,
+        load=load,
+        Kp=Kp,
+        Ti=Ti,
+        Td=Td,
+        alpha=alpha
+        )
 
 @app.route('/',methods=['GET', 'POST'])
 def chart_post():
-    v_zad=request.form['slider_proba']
+    v_zad=request.form['slider_v_zad']
     v_zad=int(v_zad)
-    model.change_parameters(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha) 
+    Tp=request.form['slider_Tp']
+    Tp=float(Tp)
+    t_sim=request.form['slider_t_sim']
+    t_sim=int(t_sim)
+    drag=request.form['slider_drag']
+    drag=float(drag)
+    Fp=request.form['slider_Fp']
+    Fp=int(Fp)
+    m=request.form['slider_m']
+    m=int(m)
+    load=request.form['slider_load']
+    load=int(load)
+    Kp=request.form['slider_Kp']
+    Kp=float(Kp)
+    Ti=request.form['slider_Ti']
+    Ti=float(Ti)
+    Td=request.form['slider_Td']
+    Td=float(Td)
+    alpha=request.form['slider_alpha']
+    alpha=float(alpha)
 
-    #script_velocity_slider, div_velocity_slider = components(slider_range())
+    model.change_parameters(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha) 
     script_velocity_plot, div_velocity_plot = components(velocity_plot(model.get_v(),model.get_x_axis()))
-    #print(v_zad)
-    return render_template('index.html',div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot)
+    script_u_plot, div_u_plot = components(u_plot(model.get_u(),model.get_x_axis()))
+    script_e_plot, div_e_plot = components(e_plot(model.get_e(),model.get_x_axis()))
+    return render_template('index.html',
+    div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot,
+    div_u_plot=div_u_plot,script_u_plot=script_u_plot,
+    div_e_plot=div_e_plot,script_e_plot=script_e_plot,
+    v_zad=v_zad,
+    Tp=Tp,
+    t_sim=t_sim,
+    drag=drag,
+    Fp=Fp,
+    m=m,
+    load=load,
+    Kp=Kp,
+    Ti=Ti,
+    Td=Td,
+    alpha=alpha
+    )
 
 def plot_line_styler(p):
-    p.title.text = "Wykres prędkości od czasu"
     p.title.text_font_size = "25px"
     p.title.text_font_style = "bold"
     p.title.align = "center"
@@ -65,10 +115,24 @@ def slider_range():
     return Slider(start=0, end = 100, value = 0, step = 1, title = "Wzmocnienie")
 
 def velocity_plot(v,tt):
-    p = figure(x_range=(1, 1000),title="Wykres_velocity", x_axis_label="s", y_axis_label="m/s")
+    p = figure(x_range=(1, 1000),title="Wykres_prędkości", x_axis_label="s", y_axis_label="m/s", width=500, height=500)
     p.line(tt, v,line_width=2, color="#033a63")
     plot_line_styler(p)
     return p
+
+def u_plot(u,tt):
+    p = figure(x_range=(1, 1000),title="Wykres_uchybu", x_axis_label="s", y_axis_label="", width=500, height=500)
+    p.line(tt, u,line_width=2, color="#033a63")
+    plot_line_styler(p)
+    return p
+
+def e_plot(e,tt):
+    p = figure(x_range=(1, 1000),title="Wykres błędu", x_axis_label="s", y_axis_label="", width=500, height=500)
+    p.line(tt, e,line_width=2, color="#033a63")
+    plot_line_styler(p)
+    return p
+
+
 
 
 
