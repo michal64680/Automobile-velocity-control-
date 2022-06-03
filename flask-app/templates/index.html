@@ -7,8 +7,8 @@
         <div class="sidebar">
             
             <h4>Parametry:</h4> 
-            <form method="post">
-            <button class="submit-btn-2" name="drop-value" type="submit" method="GET" action="">Wprowadź</button>  
+            <form method="post" action="/upload_value">
+            <button class="submit-btn-2" name="drop-value" type="submit" method="GET" action="" value="drop-value">Wprowadź</button>  
             <ul>
                 <li>
                     
@@ -84,26 +84,21 @@
         </div>
     </div>
     <div class="container">
-      
+        <div class="row mt-5"></div>
         <div class="row mt-5">
             <div class="col-2"></div>
-            <div class="col-4">
-                {{ div_velocity_plot_before | safe }}
-            </div>
-            <div class="col-2"></div>
-            <div class="col-4">
+            <div class="col-2">
                 {{ div_velocity_plot | safe }}
             </div>
-        
-        <div class="row mt-5">
-           
-        </div>
-        <div class="row mt-5">
-            <div class="col-5"></div>
-            <div class="col-5">
+            <div class="col-2"></div>
+            <div class="col-2">
+                {{ div_u_plot | safe }}
+            </div>
+            <div class="col-2"></div>
+            <div class="col-2">
                 {{ div_e_plot | safe }}
             </div>
-        </div>
+        
     </div>
     
    

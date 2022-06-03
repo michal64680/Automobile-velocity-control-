@@ -6,10 +6,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
         </ul>
-        <form name="dropdown-form" action="" method="POST">
+        <form name="dropdown-form" action="/change_control" method="POST">
             <select class="my-dropdown-menu" name="dropdown-select" style="padding:8px;border-radius:8px;">
-                <option value="1" {% if selected_class=='1' %} selected {% endif %}>Sterowanie modelowe</option>
-                <option value="2" {% if selected_class=='2' %} selected {% endif %}>Sterowanie rozmyte</option>
+                <option value="1" {% if selected_control=='1' %} selected {% endif %}>Sterowanie modelowe</option>
+                <option value="2" {% if selected_control=='2' %} selected {% endif %}>Sterowanie rozmyte</option>
                 
             </select>
             <button class="submit-btn" type="submit">Załaduj</button>
