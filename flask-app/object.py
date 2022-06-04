@@ -31,7 +31,7 @@ class object:
         self.e=[v_zad]
         self.e_sum=[]
         self.u=[0]
-        self.drag_array = [-(self.m+self.load)*9.81*math.sin(self.alpha)]
+        self.drag_array = [(self.m+self.load)*9.81*math.sin(self.alpha)]
 
         self.__start_PID()
 
@@ -90,9 +90,9 @@ class object:
 
     def __velocity(self,v_n,u_n):
         self.e.append(self.v_zad-v_n)
-        drag_temp = -0.5*self.drag*v_n*v_n-(self.m+self.load)*9.81*math.sin(self.alpha)
+        drag_temp = 0.5*self.drag*v_n*v_n+(self.m+self.load)*9.81*math.sin(self.alpha)
         self.drag_array.append(drag_temp)
-        return ((self.Tp/(self.m+self.load))*(self.Fp*self.__limit(u_n)+ drag_temp)+v_n)
+        return ((self.Tp/(self.m+self.load))*(self.Fp*self.__limit(u_n) - drag_temp)+v_n)
     
     def __start_PID(self):
         for i in range(0,self.N-1):
@@ -119,31 +119,29 @@ class object:
         return self.x_axis
 
 #Object1 = object()
-#plt.clf()
-#Object1.change_parameters_fuzzy(0.1,500,1.5,50,100,1500,100,0)
-
-#tt = Object1.get_x_axis()
-#v = Object1.get_u()
-
-#plt.plot(tt,v)
-#plt.xlabel("Czas [min]")
-#plt.ylabel("Prędkosc")
-#plt.grid()
-#plt.show()
-
-#Object1.change_parameters_PID(0.1,45,5,99,1000,500,0,0.2,0.15,1.5,-45)
+##plt.clf()
+#Object1.change_parameters_fuzzy(0.1,25,5,20,150,1200,500,-15)
 #
-#tt = Object1.get_x_axis()
-#dd = Object1.get_drag_array()
-#err = Object1.get_e()
-#v = Object1.get_v()
-#u = Object1.get_u()
+#tt1 = Object1.get_x_axis()
+#v1 = Object1.get_v()
+#u1 = Object1.get_u()
+#d1 = Object1.get_drag_array()
 #
-##plt.plot(tt,Object1.get_drag_array())
-#plt.plot(tt,dd)
-#plt.plot(tt,err)
-#plt.plot(tt,v)
-#plt.plot(tt,u)
+#Object2 = object()
+#
+##Object2.change_parameters_PID(0.1,45,5,20,350,1500,500,0.2,0.15,1.5,-15)
+#
+#
+##tt2 = Object2.get_x_axis()
+##dd = Object1.get_drag_array()
+##err = Object1.get_e()
+##v2 = Object2.get_v()
+##u = Object1.get_u()
+#
+#plt.plot(tt1,v1)
+#plt.plot(tt1,u1)
+#plt.plot(tt1,d1)
+##plt.plot(tt2,v2)
 #plt.xlabel("Czas [min]")
 #plt.ylabel("Prędkosc")
 #plt.grid()
