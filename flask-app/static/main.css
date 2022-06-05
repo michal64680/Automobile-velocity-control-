@@ -30,7 +30,7 @@
     color:#ba32a0;
 }
 .wrapper h4 {
-    color: black;
+    color: white;
     padding-top: 40px;
     margin-left: 10%;
    
@@ -120,5 +120,9 @@ p{
     font-family: sans;
     color: black
 }
-
+h4{
+    color: white;
+    padding-top: 40px;
+    margin-left: 10%; 
+}
  

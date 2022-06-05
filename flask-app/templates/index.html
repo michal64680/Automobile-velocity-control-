@@ -51,16 +51,19 @@
                     <input type="range" min="0.01" max="2" step="0.02" value="{{Kp | safe}}" class="slider" id="myRange" name="slider_Kp" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{Kp | safe}}</output>
                 </li>
+                {% if selected_control=='1' or selected_control==None or selected_control=='0' %}
                 <li>
                     <h6>Czas zdwojenia(Ti): </h6>
                     <input type="range" min="0.01" max="1" step="0.01" value="{{Ti | safe}}" class="slider" id="myRange" name="slider_Ti" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{Ti | safe}}</output>
+                    
                 </li>
                 <li>
                     <h6>Czas wyprzedzenia(Td): </h6>
                     <input type="range" min="0.001" max="0.1" step="0.001" value="{{Td | safe}}" class="slider" id="myRange" name="slider_Td" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{Td | safe}}</output>
                 </li>
+                {% endif %}
                 <li>
                     <h6>Kąt nachylenia: </h6>
                     <input type="range" min="-40" max="40" step="1" value="{{alpha | safe}}" class="slider" id="myRange" name="slider_alpha" oninput="this.nextElementSibling.value = this.value">
@@ -98,13 +101,19 @@
             <div class="col-2">
                 {{ div_e_plot | safe }}
             </div>
+            {% if selected_control=='2' %}
+            <div class="col-2"></div>
+            <div class="col-2">
+                {{ div_drag_plot | safe }}
+            </div>
+            {% endif %}
         
     </div>
     
    
 {{ script_velocity_plot | safe }}
-{{ script_velocity_plot_before | safe }}
 {{ script_u_plot | safe }}
 {{ script_e_plot | safe }}
+{{ script_drag_plot | safe }}
     
 {% endblock %}
