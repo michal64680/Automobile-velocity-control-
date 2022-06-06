@@ -15,7 +15,7 @@ from object import object
 
 
 model=object()
-model_before=object()
+#model_before=object()
 
 Tp=0.1
 t_sim=500
@@ -29,24 +29,41 @@ Ti=0.1
 Td=0.01
 alpha=0
 
+get_velocity_before = []
+get_x_axis_before =[]
+get_velocity_actually = []
+get_x_axis_actually =[]
+get_u_before = []
+get_u_actually = []
+get_e_before = []
+get_e_actually = []
+selected_control='1'
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def chart():
-        selected_control = request.form.get('dropdown-select')
-        model_before.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha) 
+        global get_velocity_before,get_x_axis_before
+        global get_u_before,get_e_before,selected_control
+        #print(selected_control)
+        #selected_control = request.form.get('dropdown-select')
+        #model_before.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha) 
         #model_before.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
         #script_velocity_plot_before, div_velocity_plot_before = components(velocity_plot(model_before.get_v(),model_before.get_x_axis(),t_sim))
         model.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
+        get_velocity_before=model.get_v()
+        get_u_before=model.get_u()
+        get_e_before=model.get_e()
+        get_x_axis_before=model.get_x_axis()
         #model.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
         #script_velocity_slider, div_velocity_slider = components(slider_range())
-        script_velocity_plot, div_velocity_plot = components(velocity_plot(model.get_v(),model.get_x_axis(),t_sim,0,0))
-        script_u_plot, div_u_plot = components(u_plot(model.get_u(),model.get_x_axis(),t_sim,0,0))
-        script_e_plot, div_e_plot = components(e_plot(model.get_e(),model.get_x_axis(),t_sim,0,0))
+        script_velocity_plot, div_velocity_plot = components(velocity_plot(get_velocity_before,get_x_axis_before,t_sim,0,0))
+        script_u_plot, div_u_plot = components(u_plot(get_u_before,get_x_axis_before,t_sim,0,0))
+        script_e_plot, div_e_plot = components(e_plot(get_e_before,get_x_axis_before,t_sim,0,0))
+
         return render_template('index.html',
         div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot,
-        #div_velocity_plot_before=div_velocity_plot_before,script_velocity_plot_before=script_velocity_plot_before,
         div_u_plot=div_u_plot,script_u_plot=script_u_plot,
         div_e_plot=div_e_plot,script_e_plot=script_e_plot,
         v_zad=v_zad,
@@ -65,12 +82,16 @@ def chart():
 
 @app.route('/upload_value',methods=['GET', 'POST'])
 def chart_post():
-    global v_zad,Tp,t_sim,drag,Fp,m,load,Kp,Ti,Td,alpha
-    selected_control = request.form.get('dropdown-select')
-    if selected_control=='0' or selected_control==None or selected_control=='1':
-        model_before.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
-    else:  
-        model_before.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
+    global v_zad,Tp,t_sim,drag,Fp,m,load,Kp,Ti,Td,alpha,selected_control
+    global get_velocity_before, get_x_axis_before,get_velocity_actually,get_x_axis_actually
+    global get_u_actually,get_u_before,get_e_actually,get_e_before
+    #selected_control = request.form.get('dropdown-select')
+    print(selected_control)
+    # if selected_control=='0' or selected_control==None or selected_control=='1':
+    #     model_before.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
+    # else:  
+    #     model_before.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
+
     if request.method == 'POST' and request.form['drop-value'] == 'drop-value':
         #print(selected_control)
         v_zad=request.form['slider_v_zad']
@@ -87,34 +108,45 @@ def chart_post():
         m=int(m)
         load=request.form['slider_load']
         load=int(load)
-        Kp=request.form['slider_Kp']
-        Kp=float(Kp)
-        Ti=request.form['slider_Ti']
-        Ti=float(Ti)
-        Td=request.form['slider_Td']
-        Td=float(Td)
+        if selected_control=='0' or selected_control==None or selected_control=='1':
+            Kp=request.form['slider_Kp']
+            Kp=float(Kp)
+            Ti=request.form['slider_Ti']
+            Ti=float(Ti)
+            Td=request.form['slider_Td']
+            Td=float(Td)
         alpha=request.form['slider_alpha']
         alpha=float(alpha)
+
     if selected_control=='0' or selected_control==None or selected_control=='1':
        model.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
-       script_drag_plot, div_drag_plot = components(drag_plot(0,0,0,0,0))
+       #script_drag_plot, div_drag_plot = components(drag_plot(0,0,0,0,0))
     else:  
         model.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
-        script_drag_plot, div_drag_plot = components(drag_plot(model.get_drag_array(),model.get_x_axis(),t_sim,model_before.get_drag_array(),model_before.get_x_axis()))
-        
+        print(selected_control)
+        #script_drag_plot, div_drag_plot = components(drag_plot(model.get_drag_array(),model.get_x_axis(),t_sim,model_before.get_drag_array(),model_before.get_x_axis()))
+
+    get_velocity_actually = model.get_v()
+    get_x_axis_actually = model.get_x_axis()
+    get_u_actually=model.get_u()
+    get_e_actually=model.get_e()
+
     
-    script_velocity_plot, div_velocity_plot = components(velocity_plot(model.get_v(),model.get_x_axis(),t_sim,model_before.get_v(),model_before.get_x_axis()))
-    script_u_plot, div_u_plot = components(u_plot(model.get_u(),model.get_x_axis(),t_sim,model_before.get_u(),model_before.get_x_axis()))
-    script_e_plot, div_e_plot = components(e_plot(model.get_e(),model.get_x_axis(),t_sim,model_before.get_e(),model_before.get_x_axis()))
+    script_velocity_plot, div_velocity_plot = components(velocity_plot(get_velocity_actually,get_x_axis_actually,t_sim,get_velocity_before,get_x_axis_before))
+    script_u_plot, div_u_plot = components(u_plot(get_u_actually,get_x_axis_actually,t_sim,get_u_before,get_x_axis_before))
+    script_e_plot, div_e_plot = components(e_plot(get_e_actually,get_x_axis_actually,t_sim,get_e_before,get_x_axis_before))
     
-    
+    get_velocity_before=get_velocity_actually
+    get_x_axis_before=get_x_axis_actually
+    get_u_before=get_u_actually
+    get_e_before=get_e_actually
         
     return render_template('index.html',
     div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot,
     #div_velocity_plot_before=div_velocity_plot_before,script_velocity_plot_before=script_velocity_plot_before,
     div_u_plot=div_u_plot,script_u_plot=script_u_plot,
     div_e_plot=div_e_plot,script_e_plot=script_e_plot,
-    script_drag_plot=script_drag_plot,div_drag_plot=div_drag_plot,
+    #script_drag_plot=script_drag_plot,div_drag_plot=div_drag_plot,
     v_zad=v_zad,
     Tp=Tp,
     t_sim=t_sim,
@@ -125,33 +157,46 @@ def chart_post():
     Kp=Kp,
     Ti=Ti,
     Td=Td,
-    alpha=alpha
+    alpha=alpha,
+    selected_control=selected_control
     )
 
 @app.route('/change_control',methods=['GET', 'POST'])
 def change_control():
-    global v_zad,Tp,t_sim,drag,Fp,m,load,Kp,Ti,Td,alpha
+    global v_zad,Tp,t_sim,drag,Fp,m,load,Kp,Ti,Td,alpha,selected_control
+    global get_velocity_before,get_x_axis_before
+    global get_u_before,get_e_before
+
     selected_control = request.form.get('dropdown-select')
+    #print(selected_control)
+
     if selected_control=='0' or selected_control==None or selected_control=='1':
-        model_before.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
+        #model_before.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
         model.change_parameters_PID(Tp, t_sim, drag, v_zad, Fp, m, load, Kp, Ti, Td, alpha)
-        script_drag_plot, div_drag_plot = components(drag_plot(0,0,0,0,0))
+        #script_drag_plot, div_drag_plot = components(drag_plot(0,0,0,0,0))
     else:  
-        model_before.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
+        #model_before.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
         model.change_parameters_fuzzy(Tp, t_sim, drag, v_zad, Fp, m, load, alpha)
         #print(selected_control)
-        script_drag_plot, div_drag_plot = components(drag_plot(model.get_drag_array(),model.get_x_axis(),t_sim,model_before.get_drag_array(),model_before.get_x_axis()))
+       # script_drag_plot, div_drag_plot = components(drag_plot(model.get_drag_array(),model.get_x_axis(),t_sim,model_before.get_drag_array(),model_before.get_x_axis()))
 
-    script_velocity_plot, div_velocity_plot = components(velocity_plot(model.get_v(),model.get_x_axis(),t_sim,model_before.get_v(),model_before.get_x_axis()))
-    script_u_plot, div_u_plot = components(u_plot(model.get_u(),model.get_x_axis(),t_sim,model_before.get_u(),model_before.get_x_axis()))
-    script_e_plot, div_e_plot = components(e_plot(model.get_e(),model.get_x_axis(),t_sim,model_before.get_e(),model_before.get_x_axis()))
+    get_velocity_before=model.get_v()
+    get_u_before=model.get_u()
+    get_e_before=model.get_e()
+    get_x_axis_before=model.get_x_axis()
+
+    
+    script_velocity_plot, div_velocity_plot = components(velocity_plot(get_velocity_before,get_x_axis_before,t_sim,0,0))
+    script_u_plot, div_u_plot = components(u_plot(get_u_before,get_x_axis_before,t_sim,0,0))
+    script_e_plot, div_e_plot = components(e_plot(get_e_before,get_x_axis_before,t_sim,0,0))
+    
         
     return render_template('index.html',
     div_velocity_plot=div_velocity_plot,script_velocity_plot=script_velocity_plot,
     #div_velocity_plot_before=div_velocity_plot_before,script_velocity_plot_before=script_velocity_plot_before,
     div_u_plot=div_u_plot,script_u_plot=script_u_plot,
     div_e_plot=div_e_plot,script_e_plot=script_e_plot,
-    script_drag_plot=script_drag_plot,div_drag_plot=div_drag_plot,
+    #script_drag_plot=script_drag_plot,div_drag_plot=div_drag_plot,
     v_zad=v_zad,
     Tp=Tp,
     t_sim=t_sim,
