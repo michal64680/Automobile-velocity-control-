@@ -18,15 +18,15 @@ model=object()
 #model_before=object()
 
 Tp=0.1
-t_sim=500
+t_sim=100
 drag=1.5
 v_zad=50
 Fp=100
 m=500
 load=100
-Kp=0.1
-Ti=0.1
-Td=0.01
+Kp=2
+Ti=20
+Td=0.5
 alpha=0
 
 get_velocity_before = []

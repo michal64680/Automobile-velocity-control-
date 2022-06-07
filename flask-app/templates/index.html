@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <h6>Czas symulacji: </h6>
-                    <input type="range" min="1" max="1000" value="{{t_sim | safe}}" class="slider" id="myRange" name="slider_t_sim" oninput="this.nextElementSibling.value = this.value">
+                    <input type="range" min="1" max="200" value="{{t_sim | safe}}" class="slider" id="myRange" name="slider_t_sim" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{t_sim | safe}}</output>
                 </li>
                 <li>
@@ -28,12 +28,12 @@
                 </li>
                 <li>
                     <h6>Prędkość Zadana: </h6>
-                    <input type="range" min="1" max="70" value="{{v_zad | safe}}" class="slider" id="myRange" name="slider_v_zad" oninput="this.nextElementSibling.value = this.value">
+                    <input type="range" min="1" max="80" value="{{v_zad | safe}}" class="slider" id="myRange" name="slider_v_zad" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{v_zad | safe}}</output>
                 </li>
                 <li>
                     <h6>Siła ciągu: </h6>
-                    <input type="range" min="10" max="200" value="{{Fp | safe}}" class="slider" id="myRange" name="slider_Fp" oninput="this.nextElementSibling.value = this.value">
+                    <input type="range" min="10" max="500" value="{{Fp | safe}}" class="slider" id="myRange" name="slider_Fp" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{Fp | safe}}</output>
                 </li>
                 <li>
@@ -49,19 +49,19 @@
                 {% if selected_control=='1' or selected_control==None or selected_control=='0' %}
                 <li>
                     <h6>Wzmocnienie: </h6>
-                    <input type="range" min="0.01" max="2" step="0.02" value="{{Kp | safe}}" class="slider" id="myRange" name="slider_Kp" oninput="this.nextElementSibling.value = this.value">
+                    <input type="range" min="0.05" max="5" step="0.05" value="{{Kp | safe}}" class="slider" id="myRange" name="slider_Kp" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{Kp | safe}}</output>
                 </li>
                 
                 <li>
                     <h6>Czas zdwojenia(Ti): </h6>
-                    <input type="range" min="0.01" max="1" step="0.01" value="{{Ti | safe}}" class="slider" id="myRange" name="slider_Ti" oninput="this.nextElementSibling.value = this.value">
+                    <input type="range" min="0.1" max="25" step="0.1" value="{{Ti | safe}}" class="slider" id="myRange" name="slider_Ti" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{Ti | safe}}</output>
                     
                 </li>
                 <li>
                     <h6>Czas wyprzedzenia(Td): </h6>
-                    <input type="range" min="0.001" max="0.1" step="0.001" value="{{Td | safe}}" class="slider" id="myRange" name="slider_Td" oninput="this.nextElementSibling.value = this.value">
+                    <input type="range" min="0.01" max="1" step="0.01" value="{{Td | safe}}" class="slider" id="myRange" name="slider_Td" oninput="this.nextElementSibling.value = this.value">
                     <output class="output_range">{{Td | safe}}</output>
                 </li>
                 {% endif %}
