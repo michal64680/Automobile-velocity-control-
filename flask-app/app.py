@@ -18,7 +18,7 @@ model=object()
 #model_before=object()
 
 Tp=0.1
-t_sim=100
+t_sim=25
 drag=1.5
 v_zad=50
 Fp=100
@@ -227,7 +227,7 @@ def slider_range():
 
 
 def velocity_plot(v,tt,t_sim,v2,tt2):
-    p = figure(x_range=(1, t_sim),title="Wykres prędkości", x_axis_label="s", y_axis_label="m/s", width=350, height=350)
+    p = figure(x_range=(1, t_sim),title="Wykres prędkości", x_axis_label="s", y_axis_label="m/s", width=440, height=440)
     w1=p.line(tt, v,line_width=2, color="#033a63")
     w2=p.line(tt2, v2,line_width=2, color="#8B0000")
     plot_line_styler(p)
@@ -235,12 +235,12 @@ def velocity_plot(v,tt,t_sim,v2,tt2):
     legend = Legend(items=[
     ("Aktualny",   [w1]),
     ("Poprzedni", [w2]),
-    ], location="top_right")
+    ], location="bottom_right")
     p.add_layout(legend)
     return p
 
 def u_plot(u,tt,t_sim,u2,tt2):
-    p = figure(x_range=(1, t_sim),title="Sygnał sterowania", x_axis_label="s", y_axis_label="", width=350, height=350)
+    p = figure(x_range=(1, t_sim),title="Sygnał sterujący", x_axis_label="s", y_axis_label="Pedał gazu [%]", width=440, height=440)
     w1=p.line(tt, u,line_width=2, color="#033a63")
     w2=p.line(tt2, u2,line_width=2, color="#8B0000")
     plot_line_styler(p)
@@ -254,7 +254,7 @@ def u_plot(u,tt,t_sim,u2,tt2):
     return p
 
 def e_plot(e,tt,t_sim,e2,tt2):
-    p = figure(x_range=(1, t_sim),title="Wykres błędu", x_axis_label="s", y_axis_label="", width=350, height=350)
+    p = figure(x_range=(1, t_sim),title="Wykres błędu", x_axis_label="s", y_axis_label="m/s", width=440, height=440)
     w1=p.line(tt, e,line_width=2, color="#033a63")
     w2=p.line(tt2, e2,line_width=2, color="#8B0000")
     plot_line_styler(p)
